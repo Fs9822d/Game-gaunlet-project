@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bce7gx01flrg"]
 
 [ext_resource type="Texture2D" uid="uid://bqebv1m1ure17" path="res://Art/checkboard.png" id="1_r150o"]
+[ext_resource type="PackedScene" uid="uid://btjnbrcglma87" path="res://Scenes/player.tscn" id="2_idj7w"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_idj7w"]
 albedo_color = Color(0.4335119, 0.6891782, 0.3120858, 1)
@@ -11,5 +12,12 @@ uv1_triplanar = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=368623049]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+use_collision = true
 size = Vector3(7, 0.5, 7)
 material = SubResource("StandardMaterial3D_idj7w")
+
+[node name="Player" parent="." unique_id=916482408 instance=ExtResource("2_idj7w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1675392289]
+transform = Transform3D(1, 0, 0, 0, 0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, 0, 0)
