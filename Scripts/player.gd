@@ -8,6 +8,15 @@ extends CharacterBody3D
 @export var move_speed: float = 5.0
 @export var jump_velocity: float = 4.5
 
+enum State {
+	Moving,
+	Jumping,
+	Falling,
+	Idle
+}
+
+var current_state: State = State.Idle
+
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -38,6 +47,25 @@ func move(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, move_speed)
 
 	move_and_slide()
+
+	update_state()
+
+func update_state() -> void:
+	var prev_state := current_state
+	if not is_on_floor():
+		if velocity.y > 0:
+			current_state = State.Jumping
+		else:
+			current_state = State.Falling
+	else:
+		var horizontal_velocity := Vector2(velocity.x, velocity.z)
+		if horizontal_velocity.length() > 0.1:
+			current_state = State.Moving
+		else:
+			current_state = State.Idle
+
+	if current_state != prev_state:
+		print("Player state: ", State.keys()[current_state])
 
 func camera_move(relative: Vector2) -> void:
 	if camera:
