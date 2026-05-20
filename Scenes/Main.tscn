@@ -9,6 +9,50 @@ uv1_triplanar = true
 
 [node name="Main" type="Node3D" unique_id=746750736]
 
+[node name="slope1" type="CSGBox3D" parent="." unique_id=1012503489]
+transform = Transform3D(0.03354682, -2.7231953, 0, 0.021785561, 4.1933527, 0, 0, 0, 0.14, 16.373522, 0.19636935, 16.376)
+use_collision = true
+size = Vector3(112.20471, 0.5, 49)
+material = SubResource("StandardMaterial3D_idj7w")
+
+[node name="slope2" type="CSGBox3D" parent="." unique_id=285243560]
+transform = Transform3D(-0.03354682, 2.7231953, -1.2239188e-08, 0.021785561, 4.1933527, 0, 2.9327563e-09, -2.380693e-07, -0.14, 23.071362, 0.19636935, 16.376)
+use_collision = true
+size = Vector3(112.20471, 0.5, 49)
+material = SubResource("StandardMaterial3D_idj7w")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="." unique_id=424310962]
+transform = Transform3D(0.06, 0, 0, 0, 5, 0, 0, 0, 1, 34.09717, 1.2188864, 0)
+use_collision = true
+size = Vector3(549.1432, 0.5, 49)
+material = SubResource("StandardMaterial3D_idj7w")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="CSGBox3D6" unique_id=2135881824]
+transform = Transform3D(0.8330006, 0, 0, 0, 5, 0, 0, 0, 0.834, -1.6000977, 0, 0)
+operation = 2
+use_collision = true
+size = Vector3(482.2023, 0.5, 49)
+material = SubResource("StandardMaterial3D_idj7w")
+
+[node name="step2" type="CSGBox3D" parent="." unique_id=1020083754]
+transform = Transform3D(0.1, 0, 0, 0, 2, 0, 0, 0, 0.2, 16.905914, 0.2530315, 2.7076206)
+use_collision = true
+size = Vector3(57.148926, 0.5, 49)
+material = SubResource("StandardMaterial3D_idj7w")
+
+[node name="step1" type="CSGBox3D" parent="." unique_id=1324764783]
+transform = Transform3D(0.1, 0, 0, 0, 2, 0, 0, 0, 0.2, 16.692652, 0.42672014, -10.338276)
+use_collision = true
+size = Vector3(52.883667, 0.5, 49)
+material = SubResource("StandardMaterial3D_idj7w")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1112708804]
+transform = Transform3D(0.06, 0, 0, 0, 5, 0, 0, 0, 1, 20, 1.2188864, 0)
+visible = false
+use_collision = true
+size = Vector3(81, 0.5, 49)
+material = SubResource("StandardMaterial3D_idj7w")
+
 [node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=368623049]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -0.25, 5.5)
 use_collision = true
