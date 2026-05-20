@@ -3,6 +3,8 @@ extends CharacterBody3D
 @export_group("Camera settings")
 @export var camera: Camera3D
 @export var sensitivity: float = 0.002
+@export var bob_height: float = 0.05
+@export var bob_speed: float = 5.0
 
 @export_group("Movement settings")
 @export var move_speed: float = 5.0
@@ -16,9 +18,14 @@ enum State {
 }
 
 var current_state: State = State.Idle
+var default_camera_y: float = 1.6
+var bob_tween: Tween
+var is_bobbing: bool = false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	if camera:
+		default_camera_y = camera.position.y
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -66,6 +73,8 @@ func update_state() -> void:
 
 	if current_state != prev_state:
 		print("Player state: ", State.keys()[current_state])
+	
+	camera_bob()
 
 func camera_move(relative: Vector2) -> void:
 	if camera:
@@ -73,3 +82,35 @@ func camera_move(relative: Vector2) -> void:
 		rotate_y(-relative.x * sensitivity * delta)
 		camera.rotate_x(-relative.y * sensitivity * delta)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-80), deg_to_rad(80))
+
+func camera_bob() -> void:
+	if not camera:
+		return
+
+	if current_state == State.Moving:
+		if not is_bobbing:
+			is_bobbing = true
+			if bob_tween and bob_tween.is_valid():
+				bob_tween.kill()
+			
+			var duration := 0.25 / bob_speed
+			
+			bob_tween = create_tween().set_loops()
+			# Bob up
+			bob_tween.tween_property(camera, "position:y", default_camera_y + bob_height, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			# Bob down
+			bob_tween.tween_property(camera, "position:y", default_camera_y - bob_height, duration * 2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			# Return to default
+			bob_tween.tween_property(camera, "position:y", default_camera_y, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	else:
+		if is_bobbing:
+			is_bobbing = false
+			if bob_tween and bob_tween.is_valid():
+				bob_tween.kill()
+			
+			# Smoothly transition camera back to default height
+			bob_tween = create_tween()
+			bob_tween.tween_property(camera, "position:y", default_camera_y, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+func cameraBob() -> void:
+	camera_bob()
