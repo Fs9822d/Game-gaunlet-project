@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://bqebv1m1ure17" path="res://Art/checkboard.png" id="1_r150o"]
 [ext_resource type="PackedScene" uid="uid://dhr2tm4n4vscd" path="res://Scenes/player.tscn" id="2_idj7w"]
+[ext_resource type="PackedScene" uid="uid://jgkw45hvpm4a" path="res://Scenes/Items/item.tscn" id="3_kln2b"]
+[ext_resource type="Script" uid="uid://cmhfpkvc3ohvi" path="res://Scripts/item.gd" id="4_rgh2o"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_idj7w"]
 albedo_color = Color(0.4335119, 0.6891782, 0.3120858, 1)
@@ -21,3 +23,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1675392289]
 transform = Transform3D(1, 0, 0, 0, 0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, 0, 0)
+
+[node name="Item" parent="." unique_id=787877897 instance=ExtResource("3_kln2b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+script = ExtResource("4_rgh2o")
