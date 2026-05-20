@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://jgkw45hvpm4a"]
+
+[ext_resource type="Script" uid="uid://cmhfpkvc3ohvi" path="res://Scripts/item.gd" id="1_itemgd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bddta"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="Item" type="CharacterBody3D" unique_id=787877897 groups=["Pickable"]]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_itemgd")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1002468825 groups=["Pickable"]]
+transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=132607719]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9802322e-08, 2.9802322e-08, 2.9802322e-08)
+shape = SubResource("BoxShape3D_bddta")
