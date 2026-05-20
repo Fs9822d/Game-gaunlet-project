@@ -19,13 +19,16 @@ enum State {
 
 var current_state: State = State.Idle
 var default_camera_y: float = 1.6
-var bob_tween: Tween
+var default_camera_x: float = 0.0
+var bob_tween_y: Tween
+var bob_tween_x: Tween
 var is_bobbing: bool = false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if camera:
 		default_camera_y = camera.position.y
+		default_camera_x = camera.position.x
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -37,12 +40,19 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	move(delta)
 
+func jump() -> void:
+	if Input.is_action_just_pressed("Jump") and is_on_floor():
+		velocity.y = jump_velocity
+	
+	if current_state == State.Jumping and Input.is_action_just_released("Jump"):
+		if velocity.y > 0:
+			velocity.y /= 2.0
+
 func move(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = jump_velocity
+	jump()
 
 	var input_dir := Input.get_vector("Left", "Right", "Front", "Back")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -90,27 +100,39 @@ func camera_bob() -> void:
 	if current_state == State.Moving:
 		if not is_bobbing:
 			is_bobbing = true
-			if bob_tween and bob_tween.is_valid():
-				bob_tween.kill()
+			_kill_bob_tweens()
 			
-			var duration := 0.25 / bob_speed
+			var step := 0.25 / bob_speed
+			var bob_x := bob_height
 			
-			bob_tween = create_tween().set_loops()
-			# Bob up
-			bob_tween.tween_property(camera, "position:y", default_camera_y + bob_height, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-			# Bob down
-			bob_tween.tween_property(camera, "position:y", default_camera_y - bob_height, duration * 2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-			# Return to default
-			bob_tween.tween_property(camera, "position:y", default_camera_y, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			# Y axis: up -> down -> origin (1 cycle = 4 steps), loops forever
+			bob_tween_y = create_tween().set_loops()
+			bob_tween_y.tween_property(camera, "position:y", default_camera_y + bob_height, step).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			bob_tween_y.tween_property(camera, "position:y", default_camera_y - bob_height, step * 2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			bob_tween_y.tween_property(camera, "position:y", default_camera_y, step).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			
+			# X axis: left -> origin -> right -> origin (spans 2 Y cycles = 8 steps), loops forever
+			bob_tween_x = create_tween().set_loops()
+			bob_tween_x.tween_property(camera, "position:x", default_camera_x - bob_x, step * 2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			bob_tween_x.tween_property(camera, "position:x", default_camera_x, step * 2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			bob_tween_x.tween_property(camera, "position:x", default_camera_x + bob_x, step * 2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			bob_tween_x.tween_property(camera, "position:x", default_camera_x, step * 2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	else:
 		if is_bobbing:
 			is_bobbing = false
-			if bob_tween and bob_tween.is_valid():
-				bob_tween.kill()
+			_kill_bob_tweens()
 			
-			# Smoothly transition camera back to default height
-			bob_tween = create_tween()
-			bob_tween.tween_property(camera, "position:y", default_camera_y, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			# Smoothly return camera to default position
+			bob_tween_y = create_tween()
+			bob_tween_y.tween_property(camera, "position:y", default_camera_y, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			bob_tween_x = create_tween()
+			bob_tween_x.tween_property(camera, "position:x", default_camera_x, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+func _kill_bob_tweens() -> void:
+	if bob_tween_y and bob_tween_y.is_valid():
+		bob_tween_y.kill()
+	if bob_tween_x and bob_tween_x.is_valid():
+		bob_tween_x.kill()
 
 func cameraBob() -> void:
 	camera_bob()
