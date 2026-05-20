@@ -14,6 +14,7 @@ enum State {
 	Moving,
 	Jumping,
 	Falling,
+	Sprint,
 	Idle
 }
 
@@ -22,13 +23,20 @@ var default_camera_y: float = 1.6
 var default_camera_x: float = 0.0
 var bob_tween_y: Tween
 var bob_tween_x: Tween
+var fov_tween: Tween
 var is_bobbing: bool = false
+var active_bob_speed: float = 0.0
+var default_fov: float = 70.0
+var base_move_speed: float = move_speed
+var is_sprinting: bool = false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	if camera:
 		default_camera_y = camera.position.y
 		default_camera_x = camera.position.x
+		default_fov = camera.fov
+		base_move_speed = move_speed
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -39,6 +47,29 @@ func _input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	move(delta)
+	sprint(delta)
+
+func sprint(delta: float) -> void:
+	if Input.is_action_pressed("Sprint"):
+		if not is_sprinting:
+			is_sprinting = true
+			# Apply sprint multipliers
+			move_speed = base_move_speed * 1.25
+			if camera:
+				if fov_tween and fov_tween.is_valid():
+					fov_tween.kill()
+				fov_tween = create_tween()
+				fov_tween.tween_property(camera, "fov", default_fov * 1.1, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	else:
+		if is_sprinting:
+			is_sprinting = false
+			# Revert to defaults
+			move_speed = base_move_speed
+			if camera:
+				if fov_tween and fov_tween.is_valid():
+					fov_tween.kill()
+				fov_tween = create_tween()
+				fov_tween.tween_property(camera, "fov", default_fov, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func jump() -> void:
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
@@ -77,7 +108,10 @@ func update_state() -> void:
 	else:
 		var horizontal_velocity := Vector2(velocity.x, velocity.z)
 		if horizontal_velocity.length() > 0.1:
-			current_state = State.Moving
+			if is_sprinting:
+				current_state = State.Sprint
+			else:
+				current_state = State.Moving
 		else:
 			current_state = State.Idle
 
@@ -97,12 +131,14 @@ func camera_bob() -> void:
 	if not camera:
 		return
 
-	if current_state == State.Moving:
-		if not is_bobbing:
+	if current_state == State.Moving or current_state == State.Sprint:
+		var target_bob_speed := bob_speed * (1.5 if current_state == State.Sprint else 1.0)
+		if not is_bobbing or active_bob_speed != target_bob_speed:
 			is_bobbing = true
+			active_bob_speed = target_bob_speed
 			_kill_bob_tweens()
 			
-			var step := 0.25 / bob_speed
+			var step := 0.25 / target_bob_speed
 			var bob_x := bob_height
 			
 			# Y axis: up -> down -> origin (1 cycle = 4 steps), loops forever
@@ -120,6 +156,7 @@ func camera_bob() -> void:
 	else:
 		if is_bobbing:
 			is_bobbing = false
+			active_bob_speed = 0.0
 			_kill_bob_tweens()
 			
 			# Smoothly return camera to default position
