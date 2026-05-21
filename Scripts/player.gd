@@ -9,6 +9,7 @@ extends CharacterBody3D
 @export_group("Movement settings")
 @export var move_speed: float = 5.0
 @export var jump_velocity: float = 4.5
+@export var sprintMultiplier: float = 1.25
 
 enum State {
 	Moving,
@@ -54,7 +55,7 @@ func sprint(delta: float) -> void:
 		if not is_sprinting:
 			is_sprinting = true
 			# Apply sprint multipliers
-			move_speed = base_move_speed * 1.25
+			move_speed = base_move_speed * sprintMultiplier
 			if camera:
 				if fov_tween and fov_tween.is_valid():
 					fov_tween.kill()
