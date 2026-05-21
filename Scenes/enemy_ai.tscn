@@ -6,9 +6,12 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_00huy"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_pa2ef"]
+
 [node name="EnemyAI" type="CharacterBody3D" unique_id=173968709 node_paths=PackedStringArray("navigateA3D")]
 script = ExtResource("1_pa2ef")
 navigateA3D = NodePath("NavigationAgent3D")
+rotation_speed = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=719665499]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -17,6 +20,10 @@ shape = SubResource("CapsuleShape3D_00huy")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1626393793]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_00huy")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=406812023]
+transform = Transform3D(0.65, 0, 0, 0, 0.14999998, 0, 0, 0, 0.65, 0, 1.5, 0.20000002)
+mesh = SubResource("BoxMesh_pa2ef")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=214046482]
 debug_enabled = true
