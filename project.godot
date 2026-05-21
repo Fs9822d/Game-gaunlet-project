@@ -22,6 +22,7 @@ project/assembly_name="Game Gaunlet Project"
 [global_group]
 
 Pickable=""
+Player=""
 
 [input]
 

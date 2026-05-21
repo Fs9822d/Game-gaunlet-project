@@ -1,9 +1,22 @@
 [gd_scene format=3 uid="uid://d0rpela1ungm"]
 
+[ext_resource type="Script" uid="uid://qlr5kc3ssjqs" path="res://Scripts/enemy_ai.gd" id="1_pa2ef"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_00huy"]
 
-[node name="EnemyAI" type="CharacterBody3D" unique_id=173968709]
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_00huy"]
+
+[node name="EnemyAI" type="CharacterBody3D" unique_id=173968709 node_paths=PackedStringArray("navigateA3D")]
+script = ExtResource("1_pa2ef")
+navigateA3D = NodePath("NavigationAgent3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=719665499]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_00huy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1626393793]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_00huy")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=214046482]
+debug_enabled = true
