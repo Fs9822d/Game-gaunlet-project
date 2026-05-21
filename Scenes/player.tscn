@@ -27,11 +27,11 @@ script = ExtResource("2_cvnsp")
 throwForce = 1.5
 camera = NodePath("..")
 
-[node name="sfx" type="Node" parent="." unique_id=453352602 node_paths=PackedStringArray("player", "move_sfx")]
+[node name="sfx" type="Node3D" parent="Camera3D" unique_id=1028730277 node_paths=PackedStringArray("player", "move_sfx")]
 script = ExtResource("3_vgqql")
-player = NodePath("..")
+player = NodePath("../..")
 move_sfx = NodePath("MoveSFX")
 
-[node name="MoveSFX" type="AudioStreamPlayer3D" parent="sfx" unique_id=1595839556]
+[node name="MoveSFX" type="AudioStreamPlayer3D" parent="Camera3D/sfx" unique_id=1595839556]
 stream = ExtResource("4_fkybt")
 parameters/looping = true
