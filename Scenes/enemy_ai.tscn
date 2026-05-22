@@ -12,6 +12,7 @@
 script = ExtResource("1_pa2ef")
 navigateA3D = NodePath("NavigationAgent3D")
 rotation_speed = 2.0
+patrol_near_player = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=719665499]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
