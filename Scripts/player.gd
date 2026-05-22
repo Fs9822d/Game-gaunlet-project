@@ -29,7 +29,6 @@ var is_bobbing: bool = false
 var active_bob_speed: float = 0.0
 var default_fov: float = 70.0
 var base_move_speed: float = move_speed
-var is_sprinting: bool = false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -50,27 +49,22 @@ func _physics_process(delta: float) -> void:
 	move(delta)
 	sprint(delta)
 
+func _tween_fov(target_fov: float) -> void:
+	if camera:
+		if fov_tween and fov_tween.is_valid():
+			fov_tween.kill()
+		fov_tween = create_tween()
+		fov_tween.tween_property(camera, "fov", target_fov, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
 func sprint(delta: float) -> void:
-	if Input.is_action_pressed("Sprint"):
-		if not is_sprinting:
-			is_sprinting = true
-			# Apply sprint multipliers
+	if current_state == State.Sprint:
+		if move_speed == base_move_speed:
 			move_speed = base_move_speed * sprintMultiplier
-			if camera:
-				if fov_tween and fov_tween.is_valid():
-					fov_tween.kill()
-				fov_tween = create_tween()
-				fov_tween.tween_property(camera, "fov", default_fov * 1.1, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			_tween_fov(default_fov * 1.1)
 	else:
-		if is_sprinting:
-			is_sprinting = false
-			# Revert to defaults
+		if move_speed != base_move_speed:
 			move_speed = base_move_speed
-			if camera:
-				if fov_tween and fov_tween.is_valid():
-					fov_tween.kill()
-				fov_tween = create_tween()
-				fov_tween.tween_property(camera, "fov", default_fov, 0.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+			_tween_fov(default_fov)
 
 func jump() -> void:
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
@@ -109,7 +103,7 @@ func update_state() -> void:
 	else:
 		var horizontal_velocity := Vector2(velocity.x, velocity.z)
 		if horizontal_velocity.length() > 0.1:
-			if is_sprinting:
+			if Input.is_action_pressed("Sprint"):
 				current_state = State.Sprint
 			else:
 				current_state = State.Moving
