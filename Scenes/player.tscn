@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://wknluptv4cka" path="res://Scripts/hand.gd" id="2_cvnsp"]
 [ext_resource type="Script" uid="uid://bh1q03ohqgole" path="res://Scripts/PlayerSFX.gd" id="3_vgqql"]
 [ext_resource type="AudioStream" uid="uid://5uocjbjnci0t" path="res://Assets/Audio/footsteps.ogg" id="4_fkybt"]
+[ext_resource type="Script" uid="uid://bmvtygyeapqda" path="res://Scripts/Inventory/inventory.gd" id="5_fkybt"]
+[ext_resource type="PackedScene" uid="uid://kafw4x3wuarp" path="res://Scenes/Inventory/InventorySlots.tscn" id="6_x3wgy"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cvnsp"]
 
@@ -35,3 +37,12 @@ move_sfx = NodePath("MoveSFX")
 [node name="MoveSFX" type="AudioStreamPlayer3D" parent="Camera3D/sfx" unique_id=1595839556]
 stream = ExtResource("4_fkybt")
 parameters/looping = true
+
+[node name="Inventory" type="Control" parent="." unique_id=350238330]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_fkybt")
+inventorySlot = ExtResource("6_x3wgy")
+amountToSpawn = 5
