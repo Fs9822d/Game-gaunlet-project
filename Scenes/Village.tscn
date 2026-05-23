@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://rb5vsb3bi4bo"]
 
+[ext_resource type="PackedScene" uid="uid://dhr2tm4n4vscd" path="res://Scenes/player.tscn" id="1_3wdrw"]
+
 [sub_resource type="Gradient" id="Gradient_5giop"]
 offsets = PackedFloat32Array(0.2, 1)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -40,6 +42,7 @@ _shader_parameters = {
 &"noise_texture": SubResource("NoiseTexture2D_g6esj"),
 &"projection_threshold": null
 }
+world_background = 0
 show_checkered = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fdddk"]
@@ -66,8 +69,12 @@ mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_nd6jl")])
 [node name="Village" type="Node3D" unique_id=249935]
 
 [node name="Terrain3D" type="Terrain3D" parent="." unique_id=930480099]
+data_directory = "res://Village Terrain Data Directory"
 material = SubResource("Terrain3DMaterial_ptt31")
 assets = SubResource("Terrain3DAssets_taq63")
 show_checkered = true
 top_level = true
 metadata/_edit_lock_ = true
+
+[node name="Player" parent="." unique_id=916482408 instance=ExtResource("1_3wdrw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.78727, 0, 16.867083)
