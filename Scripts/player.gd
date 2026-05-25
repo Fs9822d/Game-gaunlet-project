@@ -116,6 +116,9 @@ func update_state() -> void:
 	camera_bob()
 
 func camera_move(relative: Vector2) -> void:
+	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
+		return
+
 	if camera:
 		var delta := get_process_delta_time()
 		rotate_y(-relative.x * sensitivity * delta)

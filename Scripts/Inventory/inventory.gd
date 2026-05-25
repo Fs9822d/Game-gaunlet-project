@@ -7,6 +7,16 @@ var slots: Array = []
 
 func _ready() -> void:
 	createSlots()
+	self.visible = false
+
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("Inventory"):
+		self.visible = not self.visible
+
+		if self.visible:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func get_combined_y_size() -> float:
 	var total: float = 0.0

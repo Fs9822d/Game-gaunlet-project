@@ -15,4 +15,3 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector3.ZERO
 
 	move_and_slide()
-
