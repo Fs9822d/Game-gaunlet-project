@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b1cgwuu2pmvfa"]
+
+[ext_resource type="Texture2D" uid="uid://b7j45o7723rb3" path="res://blender/textures/ImphenziaPixPal_BaseColor.png" id="1_mpmqg"]
+
+[resource]
+resource_name = "Material.001"
+cull_mode = 2
+albedo_texture = ExtResource("1_mpmqg")
+texture_filter = 2
