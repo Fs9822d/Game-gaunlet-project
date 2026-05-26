@@ -1,4 +1,4 @@
 extends Resource
 class_name InventoryItem
 
-var inventoryImage: Texture2D
+@export var inventoryImage: Texture2D

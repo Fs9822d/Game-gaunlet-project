@@ -23,11 +23,12 @@ shape = SubResource("CapsuleShape3D_cvnsp")
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1308084939]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
-[node name="Hand" type="Node3D" parent="Camera3D" unique_id=652406645 node_paths=PackedStringArray("camera")]
+[node name="Hand" type="Node3D" parent="Camera3D" unique_id=652406645 node_paths=PackedStringArray("camera", "inventory")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, -0.20000005, -0.5)
 script = ExtResource("2_cvnsp")
 throwForce = 1.5
 camera = NodePath("..")
+inventory = NodePath("../../Inventory")
 
 [node name="sfx" type="Node3D" parent="Camera3D" unique_id=1028730277 node_paths=PackedStringArray("player", "move_sfx")]
 script = ExtResource("3_vgqql")
@@ -38,11 +39,20 @@ move_sfx = NodePath("MoveSFX")
 stream = ExtResource("4_fkybt")
 parameters/looping = true
 
-[node name="Inventory" type="Control" parent="." unique_id=350238330]
+[node name="Inventory" type="Control" parent="." unique_id=350238330 node_paths=PackedStringArray("activeSlot", "hand")]
 layout_mode = 3
 anchors_preset = 0
+offset_top = 2.0
 offset_right = 40.0
-offset_bottom = 40.0
+offset_bottom = 42.0
 script = ExtResource("5_fkybt")
 inventorySlot = ExtResource("6_x3wgy")
 amountToSpawn = 5
+activeSlot = NodePath("ColorRect")
+hand = NodePath("../Camera3D/Hand")
+
+[node name="ColorRect" type="ColorRect" parent="Inventory" unique_id=228055678]
+layout_mode = 0
+offset_top = -1.0
+offset_right = 120.0
+offset_bottom = 119.0

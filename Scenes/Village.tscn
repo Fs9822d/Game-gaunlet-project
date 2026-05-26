@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dhr2tm4n4vscd" path="res://Scenes/player.tscn" id="1_3wdrw"]
 [ext_resource type="PackedScene" uid="uid://jgkw45hvpm4a" path="res://Scenes/Inventory/Items/item.tscn" id="2_g6esj"]
+[ext_resource type="Script" uid="uid://iy1d5juto5av" path="res://Scripts/Inventory/inventory_item.gd" id="3_ptt31"]
 
 [sub_resource type="Gradient" id="Gradient_5giop"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -67,6 +68,15 @@ lod0_range = 128.0
 [sub_resource type="Terrain3DAssets" id="Terrain3DAssets_taq63"]
 mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_nd6jl")])
 
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fdddk"]
+width = 118
+height = 118
+
+[sub_resource type="Resource" id="Resource_nd6jl"]
+script = ExtResource("3_ptt31")
+inventoryImage = SubResource("NoiseTexture2D_fdddk")
+metadata/_custom_type_script = "uid://iy1d5juto5av"
+
 [node name="Village" type="Node3D" unique_id=249935]
 
 [node name="Terrain3D" type="Terrain3D" parent="." unique_id=930480099]
@@ -84,3 +94,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 61.78727, 0, 4.8670826)
 
 [node name="Item" parent="." unique_id=787877897 instance=ExtResource("2_g6esj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59, 1, 5)
+inventoryItem = SubResource("Resource_nd6jl")
