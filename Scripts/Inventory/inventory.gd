@@ -3,6 +3,8 @@ class_name Inventory
 
 @export var inventorySlot: PackedScene
 @export var amountToSpawn: int
+
+@export var hand: Hand
 var slots: Array = []
 
 func _ready() -> void:

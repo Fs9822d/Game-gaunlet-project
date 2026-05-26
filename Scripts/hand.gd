@@ -1,4 +1,5 @@
 extends Node3D
+class_name Hand
 
 @export var handExtent: float = 3.0
 @export var throwForce: float = 12.0
