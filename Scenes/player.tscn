@@ -48,11 +48,5 @@ offset_bottom = 42.0
 script = ExtResource("5_fkybt")
 inventorySlot = ExtResource("6_x3wgy")
 amountToSpawn = 5
-activeSlot = NodePath("ColorRect")
+activeSlot = NodePath("")
 hand = NodePath("../Camera3D/Hand")
-
-[node name="ColorRect" type="ColorRect" parent="Inventory" unique_id=228055678]
-layout_mode = 0
-offset_top = -1.0
-offset_right = 120.0
-offset_bottom = 119.0
