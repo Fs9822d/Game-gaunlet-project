@@ -1,15 +1,19 @@
 extends Node3D
+class_name Hand
 
 @export var handExtent: float = 3.0
 @export var throwForce: float = 12.0
-@export var camera: Camera3D
 
-## In Godot, a camera's forward direction is along its local -Z axis.
-## If set to true, the raycast and throw direction will be the camera's local forward (-Z).
-## If set to false, it will use the camera's local -Y axis as requested.
+@export var camera: Camera3D
 @export var use_camera_forward_axis: bool = true
 
-var handItem: Item = null
+@export var inventory: Inventory
+
+var handItem: Item:
+	get:
+		if inventory:
+			return inventory.get_active_item()
+		return null
 
 func _ready() -> void:
 	if not camera:
@@ -53,7 +57,12 @@ func interact_raycast() -> void:
 			pick_up_item(collider)
 
 func pick_up_item(item: Item) -> void:
-	handItem = item
+	if not inventory:
+		printerr("Hand: No inventory set!")
+		return
+	if not inventory.add_item(item):
+		return
+		
 	item.picked = true
 	
 	# Re-parent the item to the Hand node
@@ -64,13 +73,16 @@ func pick_up_item(item: Item) -> void:
 	# Reset local position and rotation to align perfectly with the Hand node
 	item.position = Vector3.ZERO
 	item.rotation = Vector3.ZERO
+	
+	update_held_items_visibility()
 
 func throw_item() -> void:
-	if not handItem:
+	var item = handItem
+	if not item:
 		return
 		
-	var item = handItem
-	handItem = null
+	if inventory:
+		inventory.remove_item(item)
 	
 	# Save the global position before changing parents
 	var throw_pos = global_position
@@ -89,3 +101,11 @@ func throw_item() -> void:
 	# Add velocity to the item along the camera direction
 	var dir = - camera.global_transform.basis.z if use_camera_forward_axis else -camera.global_transform.basis.y
 	item.velocity = dir * throwForce
+	
+	update_held_items_visibility()
+
+func update_held_items_visibility() -> void:
+	var active_item = handItem
+	for child in get_children():
+		if child is Item:
+			child.visible = (child == active_item)

@@ -2,6 +2,7 @@ extends CharacterBody3D
 class_name Item
 
 @export var picked: bool = false
+@export var inventoryItem: InventoryItem
 
 func _physics_process(delta: float) -> void:
 	if picked:
@@ -15,4 +16,3 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector3.ZERO
 
 	move_and_slide()
-

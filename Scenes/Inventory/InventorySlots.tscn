@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://kafw4x3wuarp"]
+
+[ext_resource type="Script" uid="uid://0viv7mbfy0cf" path="res://Scripts/Inventory/inventory_slots.gd" id="1_2oal5"]
+
+[node name="InventorySlots" type="ColorRect" unique_id=1512892952 node_paths=PackedStringArray("texture")]
+custom_minimum_size = Vector2(118, 118)
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 119.0
+offset_bottom = 119.0
+color = Color(0.05882353, 0.1764706, 0.25882354, 0.8392157)
+script = ExtResource("1_2oal5")
+texture = NodePath("TextureRect")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2020054552]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
