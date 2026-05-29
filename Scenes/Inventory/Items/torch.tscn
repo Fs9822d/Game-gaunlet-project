@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://oerblc3dilse"]
+
+[ext_resource type="Script" uid="uid://cmhfpkvc3ohvi" path="res://Scripts/item.gd" id="1_8dcbf"]
+[ext_resource type="Script" uid="uid://iy1d5juto5av" path="res://Scripts/Inventory/inventory_item.gd" id="2_y8u4g"]
+[ext_resource type="PackedScene" uid="uid://dlwcgomubpg3s" path="res://blender/torch.blend" id="3_y8u4g"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4xr6c"]
+
+[sub_resource type="Resource" id="Resource_jgeox"]
+script = ExtResource("2_y8u4g")
+inventoryImage = SubResource("NoiseTexture2D_4xr6c")
+metadata/_custom_type_script = "uid://iy1d5juto5av"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bddta"]
+size = Vector3(0.2, 0.1842163, 0.40440673)
+
+[node name="Torch" type="CharacterBody3D" unique_id=787877897 groups=["Pickable"]]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_8dcbf")
+inventoryItem = SubResource("Resource_jgeox")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=132607719]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008561999, -0.007891815, 0.07487696)
+shape = SubResource("BoxShape3D_bddta")
+
+[node name="torch2" parent="." unique_id=823283989 instance=ExtResource("3_y8u4g")]
+transform = Transform3D(-8.742277e-08, 8.7422784e-08, -2, 2, -8.742278e-08, -8.742278e-08, -8.7422784e-08, -2, -8.742278e-08, -0.013741791, 0.022961896, 0.16851747)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=896979228]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.17427324)
+spot_range = 8.941754
+spot_angle = 32.961636
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="." unique_id=103001166]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.17427324)
+light_energy = 2.0
+spot_range = 13.588389
+spot_angle = 18.299242

@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dhr2tm4n4vscd" path="res://Scenes/player.tscn" id="1_3wdrw"]
 [ext_resource type="PackedScene" uid="uid://jgkw45hvpm4a" path="res://Scenes/Inventory/Items/item.tscn" id="2_g6esj"]
 [ext_resource type="Script" uid="uid://iy1d5juto5av" path="res://Scripts/Inventory/inventory_item.gd" id="3_ptt31"]
+[ext_resource type="PackedScene" uid="uid://oerblc3dilse" path="res://Scenes/Inventory/Items/torch.tscn" id="4_fdddk"]
 
 [sub_resource type="Gradient" id="Gradient_5giop"]
 offsets = PackedFloat32Array(0.2, 1)
@@ -95,3 +96,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 61.78727, 0, 4.8670826)
 [node name="Item" parent="." unique_id=787877897 instance=ExtResource("2_g6esj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59, 1, 5)
 inventoryItem = SubResource("Resource_nd6jl")
+
+[node name="Torch" parent="." unique_id=1175762270 instance=ExtResource("4_fdddk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 58, 0.2, 6)
